@@ -136,17 +136,18 @@
 
     pattern : function (el) {
       var type = el.getAttribute('type'),
-          required = typeof el.getAttribute('required') === 'string';
+          required = typeof el.getAttribute('required') === 'string',
+          no_skip = el.getAttribute('data-abide-skip') === null;
 
       var pattern = el.getAttribute('pattern') || '';
 
-      if (this.settings.patterns.hasOwnProperty(pattern) && pattern.length > 0) {
+      if (no_skip && this.settings.patterns.hasOwnProperty(pattern) && pattern.length > 0) {
         return [el, this.settings.patterns[pattern], required];
       } else if (pattern.length > 0) {
         return [el, new RegExp(pattern), required];
       }
 
-      if (this.settings.patterns.hasOwnProperty(type)) {
+      if (no_skip && this.settings.patterns.hasOwnProperty(type)) {
         return [el, this.settings.patterns[type], required];
       }
 
